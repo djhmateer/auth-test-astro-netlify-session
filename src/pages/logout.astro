@@ -1,0 +1,12 @@
+---
+import { deleteSession } from '../lib/session.js';
+
+const sessionId = Astro.cookies.get('sessionId')?.value;
+
+if (sessionId) {
+  await deleteSession(sessionId);
+}
+
+Astro.cookies.delete('sessionId');
+return Astro.redirect('/login');
+---

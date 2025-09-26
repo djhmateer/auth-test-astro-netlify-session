@@ -1,0 +1,78 @@
+---
+import { getSession } from '../../lib/session.js';
+
+const sessionId = Astro.cookies.get('sessionId')?.value;
+const session = await getSession(sessionId);
+
+if (!session) {
+  return Astro.redirect('/login');
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .project-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 15px;
+      background: #f9f9f9;
+    }
+    .logout-btn {
+      background: #dc3545;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .logout-btn:hover {
+      background: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Projects Dashboard</h1>
+    <a href="/logout" class="logout-btn">Logout</a>
+  </div>
+
+  <div class="project-card">
+    <h3>Project Alpha</h3>
+    <p>A revolutionary web application that will change the world.</p>
+    <p><strong>Status:</strong> In Development</p>
+  </div>
+
+  <div class="project-card">
+    <h3>Project Beta</h3>
+    <p>An innovative mobile app with cutting-edge features.</p>
+    <p><strong>Status:</strong> Planning Phase</p>
+  </div>
+
+  <div class="project-card">
+    <h3>Project Gamma</h3>
+    <p>A data analytics platform for enterprise clients.</p>
+    <p><strong>Status:</strong> Ready for Launch</p>
+  </div>
+
+  <p><em>Welcome back! You are successfully authenticated and viewing protected content.</em></p>
+</body>
+</html>

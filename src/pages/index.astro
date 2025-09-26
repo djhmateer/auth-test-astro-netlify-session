@@ -1,11 +1,67 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getSession } from '../lib/session.js';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const sessionId = Astro.cookies.get('sessionId')?.value;
+const session = await getSession(sessionId);
+const isLoggedIn = !!session;
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px;
+      text-decoration: none;
+      border-radius: 4px;
+      color: white;
+    }
+    .btn-primary {
+      background: #007cba;
+    }
+    .btn-primary:hover {
+      background: #005a87;
+    }
+    .btn-secondary {
+      background: #6c757d;
+    }
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+    .btn-danger {
+      background: #dc3545;
+    }
+    .btn-danger:hover {
+      background: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Your App</h1>
+
+  {isLoggedIn ? (
+    <div>
+      <p>You are currently logged in!</p>
+      <a href="/projects" class="btn btn-primary">View Projects</a>
+      <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+  ) : (
+    <div>
+      <p>Please log in to access protected content.</p>
+      <a href="/login" class="btn btn-primary">Login</a>
+    </div>
+  )}
+</body>
+</html>
